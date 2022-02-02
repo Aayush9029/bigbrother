@@ -1,0 +1,9 @@
+coremltools==5.1.0
+mpmath==1.2.1
+numpy==1.22.1
+opencv-python==4.5.5.62
+packaging==21.3
+protobuf==3.19.4
+pyparsing==3.0.7
+sympy==1.9
+tqdm==4.62.3
