@@ -39,12 +39,18 @@ class BigBrother:
         self.display_code = args.no_display
         self.passcode = args.passcode
 
+    def main(self):
+        while True:
+            frame = self.big_cam.update()
+            # do machine learning stuff here
+
+            # Display the frame
+            self.big_cam.display_window()
+            if waitKey(1) == 27:
+                break
 
 if __name__ == "__main__":
     bb = BigBrother()
     bb.arguments()
-    while True:
-        frame = bb.big_cam.update()
-        bb.big_cam.display_window()
-        if waitKey(1) == 27:
-            break
+    bb.main()
+
