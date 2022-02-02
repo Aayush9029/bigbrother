@@ -1,17 +1,16 @@
 # Main program that runs the program, handles arguments
-
-import os
-import cv2
-import numpy as np
+from cv2 import waitKey, imshow, destroyAllWindows
 import coremltools
 import argparse
-
+from camera import Camera
 
 class BigBrother:
     """
     Parses arguments and runs the program
     """
     def __init__(self):
+        # Set the size of the camera and initialize the camera
+        self.big_cam = Camera((640, 480))
         # Play noise
         self.scream = False
         # Send message via webhook
@@ -22,11 +21,6 @@ class BigBrother:
         self.display_code = False 
         # Use this password to disengage the alarm system
         self.passcode = "12345"
-
-        self.size = {
-            "width": 720,
-            "height": 480
-        }
 
     def arguments(self):
         """
@@ -44,51 +38,13 @@ class BigBrother:
         self.verbose = args.no_log
         self.display_code = args.no_display
         self.passcode = args.passcode
-    
-    def main(self):
-        cap = cv2.VideoCapture(0)
-        # Set camera resolution. The max resolution is webcam dependent
-        # so change it to a resolution that is both supported by your camera
-        # and compatible with your monitor  
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.size["width"])
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.size["height"])
-
-        # If you have problems running this code on MacOS X you probably have to reinstall opencv with
-        # qt backend because cocoa support seems to be broken:
-        #   brew reinstall opencv --HEAD --qith-qt
-
-
-
-        while True:
-            ret, frame = cap.read()
-            cv2.imshow('BIG BROTHER', frame)
-            # 27 is the escape key for macbook not sure if it works on other systems :)
-            if cv2.waitKey(1) == 27:
-                break
-
-        cap.release()
-        cv2.destroyAllWindows()
-
-
-    def watch(self):
-        """
-        Runs the program
-        """
-        # Get the arguments
-        self.arguments()
-        # Run the program
-        self.main()
-
-
 
 
 if __name__ == "__main__":
-    cap = cv2.VideoCapture(0) 
-    # Create the object
     bb = BigBrother()
-    # Run the program
-    bb.watch()
-    # Release the camera
-    cap.release()
-    # Destroy all windows
-    cv2.destroyAllWindows()
+    bb.arguments()
+    while True:
+        frame = bb.big_cam.update()
+        bb.big_cam.display_window()
+        if waitKey(1) == 27:
+            break
