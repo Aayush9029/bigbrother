@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 coremltools = "*"
+opencv-python = "*"
 
 [dev-packages]
 
