@@ -73,6 +73,7 @@ class BigBrother:
                 if result == "Intruder":
                     self.big_cam.save_buffer()
                     exit()
+#                     TODO: Upload to github, and cool stuff or something to alert myself and the intruder
 
             # Check if the lid is closed
             if is_lid_closed():
