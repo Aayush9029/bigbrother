@@ -41,12 +41,9 @@ class BigBrother:
 
     def main(self):
         while True:
-            frame = self.big_cam.update()
-            # do machine learning stuff here
-
-            # Display the frame
             self.big_cam.display_window()
             if waitKey(1) == 27:
+                self.big_cam.save_buffer()
                 break
 
 if __name__ == "__main__":
