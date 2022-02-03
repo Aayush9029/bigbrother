@@ -45,6 +45,9 @@ class Camera:
             cv2.imwrite(f"{self.image_folder}/{st}-{index}.jpg", frame)
     
     def display_window(self):
+        """
+        Fetches the frame and displays it in a window
+        """
         frame = self.update()
         if self.buffer_time > 0:
             self.buffer.append(frame)
