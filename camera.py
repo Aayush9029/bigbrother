@@ -6,10 +6,10 @@ import datetime
 class Camera:
     """
     A Simple Wrapper for opencv's api
-    It will save last 10 seconds of video in a buffer and save if and only if required
+    It will save last 5 seconds of video in a buffer and save if and only if required
     """
 
-    def __init__(self, size, fps=5, buffer_time=5) -> None:
+    def __init__(self, size, fps=1, buffer_time=5) -> None:
         self.image_folder = "./images"
         self.width = size[0]
         self.height = size[1]
@@ -20,6 +20,7 @@ class Camera:
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.height)
         self.cap.set(cv2.CAP_PROP_FPS, fps)
         self.buffer = []
+
     
     def update(self):
         """
@@ -43,7 +44,8 @@ class Camera:
         st = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d_%H-%M-%S')
         for index, frame in enumerate(self.buffer):
             cv2.imwrite(f"{self.image_folder}/{st}-{index}.jpg", frame)
-    
+
+
     def display_window(self):
         """
         Fetches the frame and displays it in a window
@@ -52,8 +54,6 @@ class Camera:
         if self.buffer_time > 0:
             self.buffer.append(frame)
             if len(self.buffer) > self.fps * self.buffer_time:
-                print("buffer full")
                 self.buffer.pop(0)
             frame = self.buffer[-1]
         cv2.imshow('BIG BROTHER', frame)
-        

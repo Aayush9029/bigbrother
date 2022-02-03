@@ -1,8 +1,15 @@
 # Main program that runs the program, handles arguments
 from cv2 import waitKey, imshow, destroyAllWindows
-import coremltools
+import coremltools as ct
 import argparse
+
+from sympy import true
 from camera import Camera
+from lid import is_lid_closed
+from time import sleep
+import threading
+import multiprocessing
+from PIL import Image
 
 class BigBrother:
     """
@@ -22,6 +29,9 @@ class BigBrother:
         # Use this password to disengage the alarm system
         self.passcode = "12345"
 
+        # sepecifying the model
+        self.model = ct.models.MLModel('model/bigbrother.mlmodel')
+
     def arguments(self):
         """
         Parses arguments and sets flags
@@ -39,12 +49,37 @@ class BigBrother:
         self.display_code = args.no_display
         self.passcode = args.passcode
 
+    def check_intruder(self, frame):
+
+        # convert frame to PIL image
+        img = Image.fromarray(frame)
+        # convert to coreml format
+
+        return self.model.predict({'image': img })['classLabel']
+
     def main(self):
+        frame_count = 0
         while True:
+            frame_count += 1
+            print(frame_count, end="\r")
             self.big_cam.display_window()
             if waitKey(1) == 27:
                 self.big_cam.save_buffer()
                 break
+            
+            if frame_count % 30 == 0:
+                result = self.check_intruder(self.big_cam.update())
+                print(result)
+                if result == "Intruder":
+                    self.big_cam.save_buffer()
+                    exit()
+
+            # Check if the lid is closed
+            if is_lid_closed():
+                # save the frame
+                self.big_cam.save_buffer()
+
+
 
 if __name__ == "__main__":
     bb = BigBrother()
