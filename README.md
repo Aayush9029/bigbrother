@@ -19,7 +19,8 @@ Then
 ----
 
 WIP
-
+- [ ] Alert when laptop is unplugged.
+- [x] Alert when laptop's lid is closed.
 - [x] Custom FPS
 - [x] Custom Buffer limit (Seconds to record before and after incident
 - [x] Readable Codebase
@@ -32,3 +33,14 @@ WIP
 - [ ] Ctrl + C protection *run in bg using nohup*
 - [ ] Specific Key Protection: Only deactivates if someone presses a specific key within 3 seconds.
 - [ ] Ability to RICK ROLL the intruder if tampering occurs.
+
+
+Note: You'll need to train your own ML model for maximum accuracy. Keep it under 1 mb for better performance and minimal cpu usage < 2% (M1 Processor)
+The example model is 0.02 mb and works pretty well for me :D
+
+```
+Training Data:
+     250: "intruder" pictures
+     250: "person / empty" pictures
+```
+`Model size: 0.02 mb or 20 KB`
