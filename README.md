@@ -24,8 +24,8 @@ WIP
 - [x] Custom Buffer limit (Seconds to record before and after incident
 - [x] Readable Codebase
 - [x] Video DEBUG view
-- [ ] Created a Machine learning model
-- [ ] Analyzing every X frames using the model
+- [x] Created a Machine learning model
+- [x] Analyzing every X frames using the model
 - [ ] Discord webhook intergration
 - [ ] Display, QR code + Laptop is protected + Do not come close or something scary +  webcam footage and data points window (full screen)
 - [ ] Password integration to lock and unlock the device
